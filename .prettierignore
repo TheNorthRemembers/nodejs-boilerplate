@@ -1,0 +1,9 @@
+.eslintrc
+**/*.pug
+dist/**
+flow-coverage/**
+flow-typed/**
+flow/declarations/**
+node_modules/**
+server/web/public/js/react/*
+package.json

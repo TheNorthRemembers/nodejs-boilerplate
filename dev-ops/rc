@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Get last known version from master
+git checkout master;
+git pull;
+CURRENT_VERSION=$(node dev-ops/check-package-json-version);
+
+# Create RC branch
+git checkout -b release/v$(node_modules/.bin/semver $CURRENT_VERSION -i $1) develop;
+git push --set-upstream origin $(git status --branch --porcelain | grep '##' | cut -c 4-);

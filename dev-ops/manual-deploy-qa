@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+git checkout master;
+git pull;
+git push heroku master;
+heroku run 'node_modules/.bin/mariner migrate up';
+heroku run "ffmpeg -version";

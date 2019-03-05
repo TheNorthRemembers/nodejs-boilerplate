@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+git checkout develop; # make sure we have the latest develop
+git pull;
+
+# Create new tag
+git checkout master; # make sure we have the latest release candidate code fro master
+git pull;
+npm version $1; # create the new tag which .gitlab-ci.yml uses as a trigger for deploying to production
+
+# Create changelog between newest tag and previous
+PreviousAndCurrentGitTag=`git describe --tags \`git rev-list --tags --abbrev=0 --max-count=2\` --abbrev=0`
+PreviousGitTag=`echo $PreviousAndCurrentGitTag | cut -f 2 -d ' '`
+CurrentGitTag=`echo $PreviousAndCurrentGitTag | cut -f 1 -d ' '`
+
+GitLog=`git log --pretty=format:"* %s (%an)" --abbrev-commit --no-merges ${PreviousGitTag}..${CurrentGitTag}`
+
+echo "### $(echo "${CurrentGitTag}")
+$(echo "${GitLog}")
+
+$(cat CHANGELOG.md)" > CHANGELOG.md
+
+git add CHANGELOG.md;
+git commit -m "Update Changelog With Commits For $CurrentGitTag";
+
+git push origin master --tags --no-verify; # adds new Changelog commit to origin/master
+
+git checkout develop;
+git merge master; # merges tag + Changelog into develop
+
+git push origin develop --no-verify; # push new code to origin/develop
