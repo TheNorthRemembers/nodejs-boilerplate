@@ -22,14 +22,11 @@ if (!IS_DEV) {
   });
 }
 
-// Apply any middleware here
-// server.app.use("/", badRobotsMiddleware);
-
-// Register Any auth strategies here
-// registerAuthStrategies(server.passport);
-
 // include all controllers
-glob("server/web/controllers/**/*.js", (err, files) => {
+const controllerPaths = path.join(
+  `${IS_DEV ? "" : "/srv/dist/"}server/web/controllers/**/*.js`
+);
+glob(controllerPaths, (err, files) => {
   each(files, (file) => {
     // $FlowIgnore
     require(file).routes(server); // eslint-disable-line
