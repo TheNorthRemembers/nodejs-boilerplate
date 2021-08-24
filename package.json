@@ -1,18 +1,18 @@
 {
-  "name": "zeta",
+  "name": "node-js-boilerplate",
   "version": "0.0.1",
-  "description": "Zeta Function Fun",
+  "description": "Simple Scaffolded Server for Web, Workers and Crons",
   "main": "index.js",
   "scripts": {
     "clean": "rm -r -f dist",
     "start": "yarn run web",
     "start-debug": "concurrently -k \"yarn run web-debug\" \"yarn run webpack\"",
-    "build": "npm run clean && npm run build-structure && concurrently \"npm run build-root\" \"npm run build-server\" \"npm run build-css\" \"gulp deploy\" \"npm run copy-static-files\" \"npm run webpack:prod\"",
+    "build": "npm run clean && npm run build-structure && concurrently \"npm run build-root\" \"npm run build-server\" \"npm run copy-static-files\"",
     "build-structure": "mkdir dist && cd dist && mkdir server && cd server && mkdir web && cd web && mkdir public && cd public && mkdir css",
     "build-css": "node-sass server/web/public/css/app.scss > dist/server/web/public/css/main.css && csso dist/server/web/public/css/main.css dist/server/web/public/css/main.css",
-    "build-root": "babel index.js web.js crons.js workers.js vid-workers.js vid-index.js -d dist",
-    "build-server": "babel server --x \".js\" --ignore server/web/public/js/*,server/web/views/*.pug -d dist/server",
-    "copy-static-files": "cp package.json dist/package.json && cp -R server/web/public/js dist/server/web/public && cp -R server/web/public/css/*.css dist/server/web/public/css && cp -R server/web/public/images dist/server/web/public/images && cp server/web/public/favicon.ico dist/server/web/public/favicon.ico",
+    "build-root": "babel index.js web.js crons.js workers.js -d dist",
+    "build-server": "babel server --x \".js\" --ignore server/web/views/*.pug -d dist/server",
+    "copy-static-files": "cp package.json dist/package.json && cp server/web/fruits.json dist/server/web/fruits.json",
     "test": "nf -e test.env run -- ava",
     "test-watch": "nf -e test.env run -- ava -w -v",
     "prepush": "yarn lint && yarn test && yarn flow && yarn puglint && yarn format-check",
@@ -45,7 +45,7 @@
   "author": "Mike Bondi",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.14.0",
+    "axios": "^0.21.1",
     "babel-watch": "^2.0.7",
     "bluebird": "^3.5.0",
     "commander": "^2.9.0",
@@ -54,8 +54,6 @@
     "mariner": "^1.0.2",
     "moment": "^2.12.0",
     "moment-timezone": "^0.5.14",
-    "newrelic": "^4.7.0",
-    "node-sass": "^4.9.0",
     "pug": "^2.0.0-rc.3",
     "querystring": "^0.2.0"
   },
@@ -118,6 +116,6 @@
     ]
   },
   "engines": {
-    "node": "^8.*"
+    "node": "^14.*"
   }
 }

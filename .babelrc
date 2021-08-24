@@ -1,5 +1,4 @@
 {
-  "presets": ["babel-preset-react-app"],
   "plugins": [
     "transform-flow-strip-types",
     "transform-es2015-modules-commonjs",

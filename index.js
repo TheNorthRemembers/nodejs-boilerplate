@@ -4,12 +4,7 @@
 
 "use strict";
 
-const {
-  REDIS_URL,
-  DATABASE_URL,
-  AMQP_URL,
-  STACK_STRIP_NODE_MODULES,
-} = process.env;
+const { STACK_STRIP_NODE_MODULES } = process.env;
 
 const program = require("commander");
 const path = require("path");
@@ -18,15 +13,6 @@ const d = require("distraught");
 d.init({
   pugOptions: {
     basedir: path.join(__dirname, "server/web/views"),
-  },
-  cache: {
-    pg: { connection: REDIS_URL },
-  },
-  db: {
-    pg: { connection: DATABASE_URL },
-  },
-  heretic: {
-    pg: { db: "pg", connection: AMQP_URL },
   },
   captureUncaught: true,
   captureUnhandled: true,

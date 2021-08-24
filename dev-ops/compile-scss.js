@@ -5,12 +5,6 @@ const fs = require("fs");
 
 const { chalk, log } = require("distraught");
 
-function transpileSass() {
-  return require("node-sass").renderSync({
-    file: "server/web/public/css/app.scss",
-  }).css;
-}
-
 function autoprefix(css /*: string */) {
   return require("postcss")([require("autoprefixer")])
     .process(css)
